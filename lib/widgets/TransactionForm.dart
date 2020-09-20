@@ -1,9 +1,25 @@
 import 'package:flutter/material.dart';
 
-class TransactionForm extends StatelessWidget {
-  final titleController = TextEditingController();
-  final amountController = TextEditingController();
+class NewTransaction extends StatefulWidget {
+  final Function _addTransaction;
+  NewTransaction(this._addTransaction);
+  @override
+  TransactionForm createState() =>
+      TransactionForm(handleTransactions: _addTransaction);
+}
+
+class TransactionForm extends State<NewTransaction> {
+  final TextEditingController titleController = TextEditingController();
+  final TextEditingController amountController = TextEditingController();
   final Function handleTransactions;
+
+  void submitData() {
+    setState(() {
+      final double amount = double.parse(amountController.text);
+      if (titleController.text.isNotEmpty && !amount.isNaN)
+        handleTransactions(titleController.text, amount);
+    });
+  }
 
   TransactionForm({this.handleTransactions});
   @override
@@ -15,20 +31,26 @@ class TransactionForm extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             TextField(
-              decoration: InputDecoration(labelText: "Title"),
-              controller: titleController,
-            ),
+                autofocus: true,
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700),
+                decoration: InputDecoration(labelText: "Title"),
+                controller: titleController,
+                onSubmitted: (_) => submitData()),
             TextField(
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700),
               decoration: InputDecoration(labelText: "Amount"),
               controller: amountController,
+              keyboardType: TextInputType.number,
+              onSubmitted: (_) => submitData(),
             ),
             FlatButton(
-                onPressed: () => handleTransactions(
-                    titleController.text, amountController.text),
+                onPressed: () => submitData(),
                 child: Text(
                   "Add Transaction",
                   style: TextStyle(
-                      color: Colors.blue, fontWeight: FontWeight.bold),
+                      fontSize: 17,
+                      color: Theme.of(context).primaryColor,
+                      fontWeight: FontWeight.bold),
                 ))
           ],
         ),
