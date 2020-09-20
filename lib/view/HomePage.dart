@@ -9,6 +9,7 @@ class HomePage extends StatefulWidget {
 }
 
 class HomePageView extends State<HomePage> {
+  bool viewForm = false;
   final List<Transaction> transactionList = <Transaction>[
     Transaction(
         id: '1',
@@ -28,14 +29,27 @@ class HomePageView extends State<HomePage> {
     });
   }
 
+  void showTransactionForm() {
+    setState(() {
+      viewForm = !viewForm;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Expenses App"),
-        centerTitle: true,
+        title: Text("Expenses Manager"),
       ),
-      body: Column(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => showTransactionForm(),
+        child: Icon(
+          Icons.add,
+          color: Colors.white,
+          size: 30,
+        ),
+      ),
+      body: ListView(
         children: <Widget>[
           Container(
             width: double.infinity,
@@ -43,7 +57,7 @@ class HomePageView extends State<HomePage> {
               child: Text("Graph goes is here !"),
             ),
           ),
-          TransactionForm(handleTransactions: addTransaction),
+          if (viewForm) TransactionForm(handleTransactions: addTransaction),
           ExpenseList(itemList: transactionList)
         ],
       ),
