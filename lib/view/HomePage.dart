@@ -9,19 +9,13 @@ class HomePage extends StatefulWidget {
 }
 
 class HomePageView extends State<HomePage> {
-  final List<Transaction> transactionList = <Transaction>[
-    Transaction(
-        id: '1',
-        title: 'Lord Of the Rings Set',
-        amount: 5300.0,
-        dateTime: DateTime.now()),
-    Transaction(
-        id: '2', title: 'New Clothes', amount: 1850.0, dateTime: DateTime.now())
-  ];
+  final List<Transaction> transactionList = <Transaction>[];
   void addTransaction(String title, double amount) {
     setState(() {
       transactionList.add(Transaction(
-          id: (int.parse(transactionList.last.id) + 1).toString(),
+          id: transactionList.isNotEmpty
+              ? (int.parse(transactionList.last.id) + 1).toString()
+              : "1",
           title: title,
           amount: amount,
           dateTime: DateTime.now()));
@@ -62,7 +56,9 @@ class HomePageView extends State<HomePage> {
               child: Text("Graph goes is here !"),
             ),
           ),
-          ExpenseList(itemList: transactionList)
+          ExpenseList(
+            itemList: transactionList,
+          )
         ],
       ),
     );
