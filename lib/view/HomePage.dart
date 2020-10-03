@@ -1,4 +1,5 @@
 import 'package:Expenses_app/model/Transaction.dart';
+import 'package:Expenses_app/widgets/Chart.dart';
 import 'package:Expenses_app/widgets/TransactionForm.dart';
 import 'package:Expenses_app/widgets/ExpenseList.dart';
 import 'package:flutter/material.dart';
@@ -50,12 +51,7 @@ class HomePageView extends State<HomePage> {
       ),
       body: Column(
         children: <Widget>[
-          Container(
-            width: double.infinity,
-            child: Card(
-              child: Text("Graph goes is here !"),
-            ),
-          ),
+          Chart(recentTransaction: transactionList),
           ExpenseList(
             itemList: transactionList,
           )

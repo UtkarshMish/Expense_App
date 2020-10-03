@@ -15,7 +15,7 @@ class MainApp extends StatelessWidget {
       theme: ThemeData(
           primarySwatch: Colors.indigo,
           accentColor: Colors.purple,
-          fontFamily: "Quicksand"),
+          fontFamily: "Digitalo"),
       home: HomePage(),
     );
   }
